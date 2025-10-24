@@ -29,7 +29,7 @@ def get_llm():
     """Initialize the Groq LLM with a supported model."""
     key = os.getenv("GROQ_API_KEY")
     if not key:
-        raise ValueError("❌ Missing GROQ_API_KEY. Add it to your .env file.")
+        raise ValueError(" Missing GROQ_API_KEY. Add it to your .env file.")
     
     # Updated model name (currently supported)
     return ChatGroq(
@@ -39,28 +39,28 @@ def get_llm():
     )
 
 def main(pdf_path):
-    print("📄 Loading PDF...")
+    print(" Loading PDF...")
     docs = load_pdf(pdf_path)
 
-    print("✂️ Splitting text...")
+    print(" Splitting text...")
     chunks = chunk_docs(docs)
 
-    print("🧩 Creating vector store...")
+    print("Creating vector store...")
     vectorstore = create_vectorstore(chunks)
 
-    print("🤖 Connecting to Groq model...")
+    print(" Connecting to Groq model...")
     llm = get_llm()
 
     retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
     qa = RetrievalQA.from_chain_type(llm=llm, retriever=retriever)
 
-    print("\n✅ Ready! Ask questions about your PDF.\nType 'exit' to quit.\n")
+    print("\n Ready! Ask questions about your PDF.\nType 'exit' to quit.\n")
 
     # Chat loop
     while True:
         query = input("Your question: ")
         if query.lower() in ["exit", "quit"]:
-            print("👋 Goodbye!")
+            print(" Goodbye!")
             break
 
         # Updated for LangChain v0.2+
